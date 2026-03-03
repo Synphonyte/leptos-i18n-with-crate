@@ -21,6 +21,9 @@ some-crate.path = "../some-crate"
 [build-dependencies]
 leptos_i18n_build = "0.6"
 
+[patch.crates-io]
+leptos_i18n = { git = "https://github.com/Baptistemontan/leptos_i18n", rev = "0385737" }
+
 [features]
 hydrate = [
   "dep:console_error_panic_hook",

@@ -1,32 +1,11 @@
 use crate::i18n::*;
-use leptos::context::Provider;
 use leptos::prelude::*;
 use leptos_meta::{provide_meta_context, MetaTags, Stylesheet, Title};
 use leptos_router::{
     components::{Route, Router, Routes},
     StaticSegment,
 };
-use some_crate::i18n::Locale as SubLocale;
 use some_crate::SomeTranslatedComponent;
-
-#[component]
-fn I18nProvider(children: TypedChildren<impl IntoView + 'static>) -> impl IntoView {
-    let i18n = leptos_i18n::context::init_i18n_context::<Locale>();
-    let mapped_locale: Signal<SubLocale> = Memo::new(move |_| match i18n.get_locale() {
-        Locale::en => SubLocale::en,
-        Locale::de => SubLocale::de,
-    })
-    .into();
-    let sub_context = leptos_i18n::context::init_i18n_subcontext(Some(mapped_locale));
-    let children = children.into_inner();
-    view! {
-      <Provider value=i18n>
-        <Provider value=sub_context>
-          {children()}
-        </Provider>
-      </Provider>
-    }
-}
 
 pub fn shell(options: LeptosOptions) -> impl IntoView {
     view! {
@@ -60,7 +39,7 @@ pub fn App() -> impl IntoView {
         <Title text="Welcome to Leptos"/>
 
         // content for this welcome page
-        <I18nProvider>
+        <I18nContextProvider>
             <Router>
                 <main>
                     <Routes fallback=|| "Page not found.".into_view()>
@@ -68,7 +47,7 @@ pub fn App() -> impl IntoView {
                     </Routes>
                 </main>
             </Router>
-        </I18nProvider>
+        </I18nContextProvider>
     }
 }
 
