@@ -9,7 +9,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     // where to generate the translations
     let i18n_mod_directory = PathBuf::from(std::env::var_os("OUT_DIR").unwrap()).join("i18n");
 
-    let cfg = Config::new("en")?;
+    let cfg = Config::new("en")?.add_locales(["de"])?;
 
     let translations_infos = TranslationsInfos::parse(cfg)?;
 
