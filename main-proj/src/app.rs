@@ -54,9 +54,21 @@ pub fn App() -> impl IntoView {
 /// Renders the home page of your application.
 #[component]
 fn HomePage() -> impl IntoView {
+    let i18n = use_i18n();
+
+    let switch_locale = move |_| {
+        let new_locale = match i18n.get_locale_untracked() {
+            Locale::en => Locale::de,
+            Locale::de => Locale::en,
+        };
+        i18n.set_locale(new_locale);
+    };
+
     view! {
         <h1>"Test"</h1>
 
         <SomeTranslatedComponent />
+
+        <button on:click=switch_locale>{t!(i18n, switch_locale)}</button>
     }
 }
